@@ -20,7 +20,7 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: #030712;
+            background-color: #020617;
             color: #fff;
         }
 
@@ -37,7 +37,7 @@
             display: block;
             width: 100%;
             height: 100%;
-            background: #030712;
+            background: #020617;
             cursor: crosshair;
         }
 
@@ -54,15 +54,15 @@
         }
 
         .stat-bar-container {
-            width: 230px;
+            width: 240px;
             height: 18px;
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(51, 65, 85, 0.8);
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(51, 65, 85, 0.9);
             border-radius: 9px;
             overflow: hidden;
             position: relative;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(6px);
         }
 
         .stat-bar-fill {
@@ -97,7 +97,7 @@
         }
 
         .hud-score-box {
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(15, 23, 42, 0.85);
             border: 1px solid #334155;
             padding: 8px 18px;
             border-radius: 10px;
@@ -131,7 +131,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
         }
 
         .stealth-btn:hover {
@@ -146,17 +146,17 @@
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            width: 480px;
+            width: 500px;
             display: none;
             flex-direction: column;
             align-items: center;
             gap: 6px;
             z-index: 10;
-            background: rgba(15, 23, 42, 0.85);
-            padding: 10px 16px;
+            background: rgba(15, 23, 42, 0.9);
+            padding: 10px 18px;
             border-radius: 12px;
             border: 1px solid #dc2626;
-            box-shadow: 0 0 20px rgba(220, 38, 38, 0.4);
+            box-shadow: 0 0 25px rgba(220, 38, 38, 0.5);
             backdrop-filter: blur(8px);
         }
 
@@ -175,7 +175,7 @@
         .modal-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(3, 7, 18, 0.88);
+            background: rgba(2, 6, 23, 0.88);
             backdrop-filter: blur(10px);
             display: flex;
             justify-content: center;
@@ -187,11 +187,11 @@
         .modal-card {
             background: #0f172a;
             border: 1px solid #1e293b;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
             border-radius: 20px;
             padding: 36px;
             width: 90%;
-            max-width: 680px;
+            max-width: 720px;
             text-align: center;
         }
 
@@ -199,7 +199,7 @@
             font-size: 32px;
             font-weight: 900;
             margin-bottom: 8px;
-            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            background: linear-gradient(135deg, #38bdf8, #c084fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: 1px;
@@ -466,15 +466,15 @@
         <!-- START MODAL -->
         <div class="modal-overlay" id="start-modal">
             <div class="modal-card">
-                <div class="modal-title">DOC DEFENDER</div>
+                <div class="modal-title">DOC DEFENDER: HYPER-SWARM</div>
                 <div class="modal-subtitle">
-                    Command your stealth fighter against invading drone fleets.<br>
-                    Upgrade weapons up to <strong>Level 5</strong>, deploy orbital defense drones, launch homing rockets, and unleash tesla lightning.<br><br>
+                    Survive massive waves of rogue drones with 10 stackable Level 5 super-abilities!<br>
+                    Summon <strong>Black Holes</strong>, launch <strong>Cluster Mortars</strong>, freeze mobs with <strong>Cryo Nova</strong>, and deploy <strong>Orbit Drones</strong>.<br><br>
                     <strong>Flight Controls:</strong><br>
                     • Move: <code>W A S D</code> / <code>Arrows</code> &nbsp;|&nbsp; Aim & Shoot: <code>Mouse + Left Click</code><br>
                     • Dash / Dodge: <code>SPACEBAR</code> &nbsp;|&nbsp; <strong>Boss Key (Google Docs View):</strong> <code>ESC</code>
                 </div>
-                <button class="btn-primary" id="start-btn">LAUNCH SHIP</button>
+                <button class="btn-primary" id="start-btn">LAUNCH MISSION</button>
             </div>
         </div>
 
@@ -558,10 +558,7 @@
     <script>
         // --- SYNTHESIZED AUDIO ENGINE ---
         class SoundEngine {
-            constructor() {
-                this.ctx = null;
-                this.muted = false;
-            }
+            constructor() { this.ctx = null; this.muted = false; }
 
             init() {
                 if (!this.ctx) {
@@ -574,20 +571,44 @@
                 if (this.muted || !this.ctx) return;
                 const o = this.ctx.createOscillator(), g = this.ctx.createGain();
                 o.type = 'sawtooth';
-                o.frequency.setValueAtTime(850, this.ctx.currentTime);
-                o.frequency.exponentialRampToValueAtTime(120, this.ctx.currentTime + 0.1);
+                o.frequency.setValueAtTime(900, this.ctx.currentTime);
+                o.frequency.exponentialRampToValueAtTime(140, this.ctx.currentTime + 0.09);
                 g.gain.setValueAtTime(0.12, this.ctx.currentTime);
-                g.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.1);
+                g.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.09);
                 o.connect(g); g.connect(this.ctx.destination);
-                o.start(); o.stop(this.ctx.currentTime + 0.1);
+                o.start(); o.stop(this.ctx.currentTime + 0.09);
+            }
+
+            playSingularity() {
+                if (this.muted || !this.ctx) return;
+                const o = this.ctx.createOscillator(), g = this.ctx.createGain();
+                o.type = 'sine';
+                o.frequency.setValueAtTime(350, this.ctx.currentTime);
+                o.frequency.exponentialRampToValueAtTime(50, this.ctx.currentTime + 0.35);
+                g.gain.setValueAtTime(0.3, this.ctx.currentTime);
+                g.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.35);
+                o.connect(g); g.connect(this.ctx.destination);
+                o.start(); o.stop(this.ctx.currentTime + 0.35);
+            }
+
+            playFreeze() {
+                if (this.muted || !this.ctx) return;
+                const o = this.ctx.createOscillator(), g = this.ctx.createGain();
+                o.type = 'triangle';
+                o.frequency.setValueAtTime(1200, this.ctx.currentTime);
+                o.frequency.linearRampToValueAtTime(600, this.ctx.currentTime + 0.15);
+                g.gain.setValueAtTime(0.15, this.ctx.currentTime);
+                g.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.15);
+                o.connect(g); g.connect(this.ctx.destination);
+                o.start(); o.stop(this.ctx.currentTime + 0.15);
             }
 
             playRocket() {
                 if (this.muted || !this.ctx) return;
                 const o = this.ctx.createOscillator(), g = this.ctx.createGain();
                 o.type = 'sine';
-                o.frequency.setValueAtTime(150, this.ctx.currentTime);
-                o.frequency.exponentialRampToValueAtTime(450, this.ctx.currentTime + 0.18);
+                o.frequency.setValueAtTime(160, this.ctx.currentTime);
+                o.frequency.exponentialRampToValueAtTime(480, this.ctx.currentTime + 0.18);
                 g.gain.setValueAtTime(0.2, this.ctx.currentTime);
                 g.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.18);
                 o.connect(g); g.connect(this.ctx.destination);
@@ -598,8 +619,8 @@
                 if (this.muted || !this.ctx) return;
                 const o = this.ctx.createOscillator(), g = this.ctx.createGain();
                 o.type = 'square';
-                o.frequency.setValueAtTime(1200, this.ctx.currentTime);
-                o.frequency.exponentialRampToValueAtTime(250, this.ctx.currentTime + 0.08);
+                o.frequency.setValueAtTime(1300, this.ctx.currentTime);
+                o.frequency.exponentialRampToValueAtTime(280, this.ctx.currentTime + 0.08);
                 g.gain.setValueAtTime(0.08, this.ctx.currentTime);
                 g.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.08);
                 o.connect(g); g.connect(this.ctx.destination);
@@ -610,8 +631,8 @@
                 if (this.muted || !this.ctx) return;
                 const o = this.ctx.createOscillator(), g = this.ctx.createGain();
                 o.type = 'triangle';
-                o.frequency.setValueAtTime(100, this.ctx.currentTime);
-                o.frequency.exponentialRampToValueAtTime(600, this.ctx.currentTime + 0.25);
+                o.frequency.setValueAtTime(90, this.ctx.currentTime);
+                o.frequency.exponentialRampToValueAtTime(650, this.ctx.currentTime + 0.25);
                 g.gain.setValueAtTime(0.25, this.ctx.currentTime);
                 g.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.25);
                 o.connect(g); g.connect(this.ctx.destination);
@@ -628,7 +649,7 @@
                 noise.buffer = buffer;
                 const filter = this.ctx.createBiquadFilter();
                 filter.type = 'lowpass';
-                filter.frequency.setValueAtTime(700, this.ctx.currentTime);
+                filter.frequency.setValueAtTime(750, this.ctx.currentTime);
                 filter.frequency.linearRampToValueAtTime(40, this.ctx.currentTime + 0.25);
                 const gain = this.ctx.createGain();
                 gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
@@ -656,7 +677,7 @@
                 const o = this.ctx.createOscillator(), g = this.ctx.createGain();
                 o.type = 'sine';
                 o.frequency.setValueAtTime(200, this.ctx.currentTime);
-                o.frequency.exponentialRampToValueAtTime(800, this.ctx.currentTime + 0.12);
+                o.frequency.exponentialRampToValueAtTime(850, this.ctx.currentTime + 0.12);
                 g.gain.setValueAtTime(0.15, this.ctx.currentTime);
                 g.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.12);
                 o.connect(g); g.connect(this.ctx.destination);
@@ -709,6 +730,7 @@
         let xp = 0;
         let xpToNextLevel = 100;
         let activeBoss = null;
+        let screenShake = 0;
 
         // Entities
         let player;
@@ -716,6 +738,8 @@
         let enemyProjectiles = [];
         let homingRockets = [];
         let pulseWaves = [];
+        let singularities = [];
+        let clusterBombs = [];
         let enemies = [];
         let particles = [];
         let xpOrbs = [];
@@ -724,67 +748,92 @@
 
         function initStars() {
             stars = [];
-            for (let i = 0; i < 140; i++) {
+            for (let i = 0; i < 150; i++) {
                 stars.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
                     size: Math.random() * 2 + 0.5,
-                    speed: Math.random() * 0.6 + 0.2,
+                    speed: Math.random() * 0.7 + 0.2,
                     alpha: Math.random() * 0.8 + 0.2
                 });
             }
         }
 
-        // --- STACKABLE PERKS DATA ---
+        function triggerScreenShake(amount) {
+            screenShake = Math.max(screenShake, amount);
+        }
+
+        // --- 10 STACKABLE PERKS (LEVEL 1 TO 5) ---
         const PERKS = {
             spread: {
                 id: 'spread',
                 name: 'Spread Cannons',
                 icon: '🔫',
                 maxLevel: 5,
-                getDesc: lvl => `Level ${lvl + 1}: Fires +${(lvl + 1) * 2} additional spread shots.`
+                getDesc: lvl => `Level ${lvl + 1}: Fires +${(lvl + 1) * 2} extra plasma beams in wide arcs.`
+            },
+            singularity: {
+                id: 'singularity',
+                name: 'Singularity Void',
+                icon: '🌀',
+                maxLevel: 5,
+                getDesc: lvl => `Level ${lvl + 1}: Black Hole pulls 30+ mobs with continuous gravity damage.`
+            },
+            cryo: {
+                id: 'cryo',
+                name: 'Cryo Freeze',
+                icon: '❄️',
+                maxLevel: 5,
+                getDesc: lvl => `Level ${lvl + 1}: Shots slow targets by ${(lvl + 1) * 12}% & freeze nearby swarms.`
+            },
+            cluster: {
+                id: 'cluster',
+                name: 'Cluster Mortar',
+                icon: '💣',
+                maxLevel: 5,
+                getDesc: lvl => `Level ${lvl + 1}: Fires mortars splitting into ${(lvl + 1) * 3} explosive bomblets.`
             },
             pulse: {
                 id: 'pulse',
                 name: 'Pulse Nova',
                 icon: '💥',
                 maxLevel: 5,
-                getDesc: lvl => `Level ${lvl + 1}: Cooldown ${3 - (lvl + 1) * 0.4}s. Shockwave radius +${(lvl + 1) * 35}%.`
+                getDesc: lvl => `Level ${lvl + 1}: Radial Shockwave CD ${3 - (lvl + 1) * 0.4}s. Radius +${(lvl + 1) * 35}%.`
             },
             drones: {
                 id: 'drones',
                 name: 'Orbit Drones',
                 icon: '🛰️',
                 maxLevel: 5,
-                getDesc: lvl => `Level ${lvl + 1}: Spawns ${lvl + 1} orbiting plasma defense drones.`
+                getDesc: lvl => `Level ${lvl + 1}: Spawns ${lvl + 1 + 1} orbiting laser defense satellites.`
             },
             rockets: {
                 id: 'rockets',
-                name: 'Homing Rockets',
+                name: 'Homing Salvos',
                 icon: '🚀',
                 maxLevel: 5,
-                getDesc: lvl => `Level ${lvl + 1}: Periodically launches ${lvl + 1} self-guided explosive rockets.`
+                getDesc: lvl => `Level ${lvl + 1}: Launches ${(lvl + 1) * 2} tracking explosive rockets.`
             },
             tesla: {
                 id: 'tesla',
                 name: 'Tesla Chain',
                 icon: '⚡',
                 maxLevel: 5,
-                getDesc: lvl => `Level ${lvl + 1}: Lasers chain arc lightning to ${lvl + 1} additional nearby targets.`
+                getDesc: lvl => `Level ${lvl + 1}: Lasers chain arc lightning to ${(lvl + 1) * 2} additional mobs.`
             },
             overclock: {
                 id: 'overclock',
                 name: 'Overclock Engine',
                 icon: '⏩',
                 maxLevel: 5,
-                getDesc: lvl => `Level ${lvl + 1}: +15% Move Speed and +20% Fire Rate.`
+                getDesc: lvl => `Level ${lvl + 1}: +18% Move Speed & +22% Fire Rate.`
             },
             armor: {
                 id: 'armor',
                 name: 'Nanite Shielding',
                 icon: '🛡️',
                 maxLevel: 5,
-                getDesc: lvl => `Level ${lvl + 1}: +40 Max HP/Shield, faster regen, and instant full repair.`
+                getDesc: lvl => `Level ${lvl + 1}: +50 Max HP/Shield & full repair on rank up.`
             }
         };
 
@@ -794,22 +843,24 @@
                 this.x = canvas.width / 2;
                 this.y = canvas.height / 2;
                 this.radius = 18;
-                this.speed = 4.5;
+                this.speed = 4.8;
                 this.maxHp = 100;
                 this.hp = 100;
                 this.maxShield = 50;
                 this.shield = 50;
                 this.shieldRegenTimer = 0;
                 this.fireCooldown = 0;
-                this.fireRate = 12;
+                this.fireRate = 11;
                 this.dashCooldown = 0;
                 this.dashInvuln = 0;
-                this.magnetRadius = 130;
+                this.magnetRadius = 160;
                 this.damageMult = 1.0;
 
-                // Perk Level Tracker
                 this.perkLevels = {
                     spread: 0,
+                    singularity: 0,
+                    cryo: 0,
+                    cluster: 0,
                     pulse: 0,
                     drones: 0,
                     rockets: 0,
@@ -821,6 +872,8 @@
                 // Timers
                 this.pulseTimer = 0;
                 this.rocketTimer = 0;
+                this.singularityTimer = 0;
+                this.clusterTimer = 0;
                 this.droneAngle = 0;
             }
 
@@ -848,21 +901,22 @@
                 if (this.dashInvuln > 0) this.dashInvuln--;
 
                 if (keys['Space'] && this.dashCooldown === 0) {
-                    this.dashCooldown = 75;
-                    this.dashInvuln = 16;
-                    this.x += dx * 90;
-                    this.y += dy * 90;
+                    this.dashCooldown = 70;
+                    this.dashInvuln = 18;
+                    this.x += dx * 95;
+                    this.y += dy * 95;
                     sound.playDash();
-                    for (let i = 0; i < 18; i++) {
+                    triggerScreenShake(3);
+                    for (let i = 0; i < 20; i++) {
                         particles.push(new Particle(this.x, this.y, '#38bdf8', Math.random() * 4 + 1.5));
                     }
                 }
 
                 // Shield Regeneration
                 this.shieldRegenTimer++;
-                const regenDelay = Math.max(60, 180 - this.perkLevels.armor * 25);
+                const regenDelay = Math.max(50, 180 - this.perkLevels.armor * 25);
                 if (this.shieldRegenTimer > regenDelay && this.shield < this.maxShield) {
-                    this.shield = Math.min(this.maxShield, this.shield + 0.25);
+                    this.shield = Math.min(this.maxShield, this.shield + 0.3);
                 }
 
                 // Weapon Firing
@@ -872,25 +926,25 @@
                     this.fireCooldown = this.fireRate;
                 }
 
-                // Perk: Pulse Nova Shockwave
+                // Perk: Pulse Nova
                 if (this.perkLevels.pulse > 0) {
                     this.pulseTimer++;
-                    const maxPulseTimer = Math.max(60, 180 - (this.perkLevels.pulse - 1) * 25);
+                    const maxPulseTimer = Math.max(50, 180 - (this.perkLevels.pulse - 1) * 25);
                     if (this.pulseTimer >= maxPulseTimer) {
                         this.pulseTimer = 0;
-                        const radius = 120 + this.perkLevels.pulse * 35;
-                        const dmg = 35 + this.perkLevels.pulse * 15;
+                        const radius = 130 + this.perkLevels.pulse * 40;
+                        const dmg = 40 + this.perkLevels.pulse * 20;
                         pulseWaves.push(new PulseWave(this.x, this.y, radius, dmg));
                         sound.playPulse();
                     }
                 }
 
-                // Perk: Homing Rockets
+                // Perk: Homing Rockets Salvo
                 if (this.perkLevels.rockets > 0) {
                     this.rocketTimer++;
-                    if (this.rocketTimer >= 120) {
+                    if (this.rocketTimer >= 110) {
                         this.rocketTimer = 0;
-                        const count = this.perkLevels.rockets;
+                        const count = this.perkLevels.rockets * 2;
                         for (let i = 0; i < count; i++) {
                             const offsetAngle = (Math.PI * 2 / count) * i;
                             homingRockets.push(new HomingRocket(this.x, this.y, offsetAngle));
@@ -899,25 +953,46 @@
                     }
                 }
 
-                // Orbit Drones Rotation
+                // Perk: Singularity Black Hole
+                if (this.perkLevels.singularity > 0) {
+                    this.singularityTimer++;
+                    const maxSingTimer = Math.max(140, 280 - (this.perkLevels.singularity - 1) * 30);
+                    if (this.singularityTimer >= maxSingTimer) {
+                        this.singularityTimer = 0;
+                        singularities.push(new Singularity(mouse.x, mouse.y, this.perkLevels.singularity));
+                        sound.playSingularity();
+                        triggerScreenShake(6);
+                    }
+                }
+
+                // Perk: Cluster Mortar
+                if (this.perkLevels.cluster > 0) {
+                    this.clusterTimer++;
+                    if (this.clusterTimer >= 90) {
+                        this.clusterTimer = 0;
+                        const targetAngle = Math.atan2(mouse.y - this.y, mouse.x - this.x);
+                        clusterBombs.push(new ClusterBomb(this.x, this.y, targetAngle, this.perkLevels.cluster));
+                    }
+                }
+
                 this.droneAngle += 0.03;
             }
 
             shoot() {
                 sound.playLaser();
                 const angle = Math.atan2(mouse.y - this.y, mouse.x - this.x);
-                const baseDamage = 28 * this.damageMult;
+                const baseDamage = 30 * this.damageMult;
 
-                // Center Main Laser
-                projectiles.push(new Projectile(this.x, this.y, angle, 13, baseDamage, '#38bdf8', false, this.perkLevels.tesla));
+                // Center Laser
+                projectiles.push(new Projectile(this.x, this.y, angle, 14, baseDamage, '#38bdf8', false, this.perkLevels.tesla * 2, this.perkLevels.cryo));
 
-                // Spread Cannons Perk
+                // Spread Cannons
                 if (this.perkLevels.spread > 0) {
                     const count = this.perkLevels.spread;
                     for (let i = 1; i <= count; i++) {
-                        const spreadAngle = 0.12 * i;
-                        projectiles.push(new Projectile(this.x, this.y, angle + spreadAngle, 12, baseDamage * 0.75, '#818cf8', false, this.perkLevels.tesla));
-                        projectiles.push(new Projectile(this.x, this.y, angle - spreadAngle, 12, baseDamage * 0.75, '#818cf8', false, this.perkLevels.tesla));
+                        const spreadAngle = 0.11 * i;
+                        projectiles.push(new Projectile(this.x, this.y, angle + spreadAngle, 13, baseDamage * 0.75, '#818cf8', false, this.perkLevels.tesla * 2, this.perkLevels.cryo));
+                        projectiles.push(new Projectile(this.x, this.y, angle - spreadAngle, 13, baseDamage * 0.75, '#818cf8', false, this.perkLevels.tesla * 2, this.perkLevels.cryo));
                     }
                 }
             }
@@ -945,10 +1020,10 @@
             }
 
             draw() {
-                // Orbiting Drones Perk Visuals
+                // Orbit Drones
                 if (this.perkLevels.drones > 0) {
-                    const droneCount = this.perkLevels.drones;
-                    const orbitRadius = 45;
+                    const droneCount = this.perkLevels.drones + 1;
+                    const orbitRadius = 50;
 
                     for (let i = 0; i < droneCount; i++) {
                         const a = this.droneAngle + (Math.PI * 2 / droneCount) * i;
@@ -963,8 +1038,7 @@
                         ctx.arc(dx, dy, 5, 0, Math.PI * 2);
                         ctx.fill();
 
-                        // Link Line to Ship
-                        ctx.strokeStyle = 'rgba(34, 211, 238, 0.2)';
+                        ctx.strokeStyle = 'rgba(34, 211, 238, 0.25)';
                         ctx.lineWidth = 1;
                         ctx.beginPath();
                         ctx.moveTo(this.x, this.y);
@@ -972,36 +1046,31 @@
                         ctx.stroke();
                         ctx.restore();
 
-                        // Drone Auto-Shooting logic
-                        if (Math.random() < 0.05 && enemies.length > 0) {
-                            let closest = null, minDist = 280;
+                        if (Math.random() < 0.08 && enemies.length > 0) {
+                            let closest = null, minDist = 320;
                             for (let enemy of enemies) {
                                 const d = Math.hypot(enemy.x - dx, enemy.y - dy);
                                 if (d < minDist) { minDist = d; closest = enemy; }
                             }
                             if (closest) {
                                 const fireAng = Math.atan2(closest.y - dy, closest.x - dx);
-                                projectiles.push(new Projectile(dx, dy, fireAng, 11, 15, '#22d3ee', false, 0));
+                                projectiles.push(new Projectile(dx, dy, fireAng, 12, 18, '#22d3ee', false, 0, this.perkLevels.cryo));
                             }
                         }
                     }
                 }
 
-                // Vector Ship Drawing
+                // Ship Rendering
                 ctx.save();
                 ctx.translate(this.x, this.y);
                 const angle = Math.atan2(mouse.y - this.y, mouse.x - this.x);
                 ctx.rotate(angle);
 
-                // Engine Glow
-                ctx.fillStyle = '#38bdf8';
-                ctx.shadowBlur = 15;
-                ctx.shadowColor = '#0284c7';
-
-                // Ship Body Outer Wings
                 ctx.fillStyle = '#0f172a';
                 ctx.strokeStyle = this.dashInvuln > 0 ? '#67e8f9' : '#38bdf8';
                 ctx.lineWidth = 2;
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = '#0284c7';
 
                 ctx.beginPath();
                 ctx.moveTo(22, 0);
@@ -1014,15 +1083,13 @@
                 ctx.fill();
                 ctx.stroke();
 
-                // Glowing Core Center
                 ctx.fillStyle = '#38bdf8';
                 ctx.beginPath();
                 ctx.arc(0, 0, 4, 0, Math.PI * 2);
                 ctx.fill();
-
                 ctx.restore();
 
-                // Shield Bubble Visual
+                // Shield Bubble
                 if (this.shield > 0) {
                     ctx.save();
                     ctx.strokeStyle = `rgba(56, 189, 248, ${0.25 + (this.shield / this.maxShield) * 0.45})`;
@@ -1037,9 +1104,113 @@
             }
         }
 
+        // --- SINGULARITY (BLACK HOLE) CLASS ---
+        class Singularity {
+            constructor(x, y, level) {
+                this.x = x;
+                this.y = y;
+                this.radius = 120 + level * 30;
+                this.damage = 4 + level * 3;
+                this.duration = 240 + level * 40;
+                this.alive = true;
+                this.angle = 0;
+            }
+
+            update() {
+                this.duration--;
+                if (this.duration <= 0) { this.alive = false; return; }
+                this.angle += 0.08;
+
+                // Gravitational Pull
+                for (let enemy of enemies) {
+                    const dist = Math.hypot(enemy.x - this.x, enemy.y - this.y);
+                    if (dist < this.radius) {
+                        const pullAngle = Math.atan2(this.y - enemy.y, this.x - enemy.x);
+                        enemy.x += Math.cos(pullAngle) * 3.5;
+                        enemy.y += Math.sin(pullAngle) * 3.5;
+                        enemy.takeDamage(this.damage);
+                    }
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+
+                // Swirling Event Horizon
+                ctx.fillStyle = '#0f172a';
+                ctx.strokeStyle = '#c084fc';
+                ctx.lineWidth = 3;
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = '#a855f7';
+
+                ctx.beginPath();
+                ctx.arc(0, 0, 24, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.rotate(this.angle);
+                ctx.strokeStyle = 'rgba(168, 85, 247, 0.4)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(0, 0, this.radius, 0, Math.PI * 1.5);
+                ctx.stroke();
+
+                ctx.restore();
+            }
+        }
+
+        // --- CLUSTER BOMB CLASS ---
+        class ClusterBomb {
+            constructor(x, y, angle, level) {
+                this.x = x;
+                this.y = y;
+                this.vx = Math.cos(angle) * 8;
+                this.vy = Math.sin(angle) * 8;
+                this.level = level;
+                this.life = 35;
+                this.alive = true;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life--;
+
+                if (this.life <= 0) {
+                    this.detonate();
+                    this.alive = false;
+                }
+            }
+
+            detonate() {
+                sound.playExplosion();
+                triggerScreenShake(5);
+                const bombletCount = this.level * 3;
+                for (let i = 0; i < bombletCount; i++) {
+                    const a = (Math.PI * 2 / bombletCount) * i;
+                    projectiles.push(new Projectile(this.x, this.y, a, 7, 35, '#f59e0b', false, 0, 0));
+                }
+                for (let i = 0; i < 15; i++) {
+                    particles.push(new Particle(this.x, this.y, '#f59e0b', Math.random() * 4 + 2));
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.fillStyle = '#f59e0b';
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = '#d97706';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 6, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
         // --- PROJECTILE CLASS ---
         class Projectile {
-            constructor(x, y, angle, speed, damage, color, isEnemy = false, teslaLevel = 0) {
+            constructor(x, y, angle, speed, damage, color, isEnemy = false, teslaChains = 0, cryoLevel = 0) {
                 this.x = x;
                 this.y = y;
                 this.vx = Math.cos(angle) * speed;
@@ -1048,7 +1219,8 @@
                 this.color = color;
                 this.radius = 4;
                 this.isEnemy = isEnemy;
-                this.teslaLevel = teslaLevel;
+                this.teslaChains = teslaChains;
+                this.cryoLevel = cryoLevel;
                 this.alive = true;
             }
 
@@ -1073,14 +1245,13 @@
             }
 
             triggerTeslaChain(hitEnemy) {
-                if (this.teslaLevel <= 0) return;
+                if (this.teslaChains <= 0) return;
                 let currentTarget = hitEnemy;
                 let chainedCount = 0;
-                let maxChains = this.teslaLevel;
                 const hitList = new Set([hitEnemy]);
 
-                while (chainedCount < maxChains) {
-                    let nextTarget = null, minDist = 180;
+                while (chainedCount < this.teslaChains) {
+                    let nextTarget = null, minDist = 200;
                     for (let enemy of enemies) {
                         if (hitList.has(enemy)) continue;
                         const d = Math.hypot(enemy.x - currentTarget.x, enemy.y - currentTarget.y);
@@ -1088,7 +1259,6 @@
                     }
 
                     if (nextTarget) {
-                        // Draw Electric Lightning Bolt
                         ctx.save();
                         ctx.strokeStyle = '#22d3ee';
                         ctx.lineWidth = 2;
@@ -1096,16 +1266,11 @@
                         ctx.shadowColor = '#06b6d4';
                         ctx.beginPath();
                         ctx.moveTo(currentTarget.x, currentTarget.y);
-                        
-                        // Jagged Arc
-                        const midX = (currentTarget.x + nextTarget.x) / 2 + (Math.random() - 0.5) * 20;
-                        const midY = (currentTarget.y + nextTarget.y) / 2 + (Math.random() - 0.5) * 20;
-                        ctx.lineTo(midX, midY);
                         ctx.lineTo(nextTarget.x, nextTarget.y);
                         ctx.stroke();
                         ctx.restore();
 
-                        nextTarget.takeDamage(this.damage * 0.6);
+                        nextTarget.takeDamage(this.damage * 0.65);
                         hitList.add(nextTarget);
                         currentTarget = nextTarget;
                         chainedCount++;
@@ -1124,8 +1289,8 @@
                 this.y = y;
                 this.vx = Math.cos(offsetAngle) * 3;
                 this.vy = Math.sin(offsetAngle) * 3;
-                this.speed = 7.5;
-                this.damage = 60;
+                this.speed = 8;
+                this.damage = 65;
                 this.radius = 5;
                 this.alive = true;
                 this.life = 180;
@@ -1135,8 +1300,7 @@
                 this.life--;
                 if (this.life <= 0) { this.alive = false; return; }
 
-                // Find Nearest Target
-                let target = null, minDist = 600;
+                let target = null, minDist = 650;
                 for (let enemy of enemies) {
                     const d = Math.hypot(enemy.x - this.x, enemy.y - this.y);
                     if (d < minDist) { minDist = d; target = enemy; }
@@ -1150,7 +1314,7 @@
                     while (diff < -Math.PI) diff += Math.PI * 2;
                     while (diff > Math.PI) diff -= Math.PI * 2;
 
-                    const newAngle = currentAngle + Math.sign(diff) * Math.min(Math.abs(diff), 0.12);
+                    const newAngle = currentAngle + Math.sign(diff) * Math.min(Math.abs(diff), 0.14);
                     this.vx = Math.cos(newAngle) * this.speed;
                     this.vy = Math.sin(newAngle) * this.speed;
                 }
@@ -1158,15 +1322,14 @@
                 this.x += this.vx;
                 this.y += this.vy;
 
-                // Smoke Trail
                 particles.push(new Particle(this.x, this.y, '#f97316', Math.random() * 2));
 
-                // Collision Check
                 for (let enemy of enemies) {
                     if (Math.hypot(this.x - enemy.x, this.y - enemy.y) < this.radius + enemy.radius) {
                         enemy.takeDamage(this.damage);
                         this.alive = false;
                         sound.playExplosion();
+                        triggerScreenShake(3);
                         for (let i = 0; i < 15; i++) {
                             particles.push(new Particle(this.x, this.y, '#ef4444', Math.random() * 4 + 2));
                         }
@@ -1187,7 +1350,7 @@
             }
         }
 
-        // --- PULSE WAVE SHOCKWAVE CLASS ---
+        // --- PULSE SHOCKWAVE CLASS ---
         class PulseWave {
             constructor(x, y, maxRadius, damage) {
                 this.x = x;
@@ -1200,7 +1363,7 @@
             }
 
             update() {
-                this.radius += 8;
+                this.radius += 9;
                 if (this.radius >= this.maxRadius) { this.alive = false; return; }
 
                 for (let enemy of enemies) {
@@ -1227,47 +1390,55 @@
             }
         }
 
-        // --- ENEMY TYPES & BOSSES ---
+        // --- ENEMY CLASS ---
         class Enemy {
             constructor(x, y, type) {
                 this.x = x;
                 this.y = y;
-                this.type = type; // 'scout', 'fighter', 'heavy', 'boss'
+                this.type = type; // 'swarmer', 'scout', 'fighter', 'heavy', 'boss'
                 this.alive = true;
                 this.rotation = 0;
                 this.phase = 1;
+                this.slowTimer = 0;
 
-                if (type === 'scout') {
+                if (type === 'swarmer') {
+                    this.radius = 9;
+                    this.hp = 18;
+                    this.maxHp = 18;
+                    this.speed = 4.2;
+                    this.color = '#38bdf8';
+                    this.scoreValue = 25;
+                } else if (type === 'scout') {
                     this.radius = 14;
-                    this.hp = 35;
-                    this.maxHp = 35;
+                    this.hp = 40;
+                    this.maxHp = 40;
                     this.speed = 3.3;
                     this.color = '#ef4444';
                     this.scoreValue = 60;
                 } else if (type === 'fighter') {
                     this.radius = 20;
-                    this.hp = 85;
-                    this.maxHp = 85;
+                    this.hp = 95;
+                    this.maxHp = 95;
                     this.speed = 2.2;
                     this.color = '#f97316';
                     this.shootTimer = 0;
                     this.scoreValue = 140;
                 } else if (type === 'heavy') {
                     this.radius = 28;
-                    this.hp = 260;
-                    this.maxHp = 260;
+                    this.hp = 280;
+                    this.maxHp = 280;
                     this.speed = 1.2;
                     this.color = '#a855f7';
                     this.shootTimer = 0;
                     this.scoreValue = 350;
                 } else if (type === 'boss') {
-                    this.radius = 55;
-                    this.hp = 1800 + wave * 450;
+                    this.radius = 60;
+                    this.hp = 2400 + wave * 600;
                     this.maxHp = this.hp;
                     this.speed = 0.7;
                     this.color = '#dc2626';
                     this.shootTimer = 0;
-                    this.scoreValue = 3000;
+                    this.scoreValue = 4000;
                 }
             }
 
@@ -1275,66 +1446,64 @@
                 const angle = Math.atan2(player.y - this.y, player.x - this.x);
                 this.rotation += 0.02;
 
-                if (this.type === 'scout') {
-                    this.x += Math.cos(angle) * this.speed;
-                    this.y += Math.sin(angle) * this.speed;
+                let effectiveSpeed = this.speed;
+                if (this.slowTimer > 0) {
+                    this.slowTimer--;
+                    effectiveSpeed *= 0.45;
+                }
+
+                if (this.type === 'swarmer' || this.type === 'scout') {
+                    this.x += Math.cos(angle) * effectiveSpeed;
+                    this.y += Math.sin(angle) * effectiveSpeed;
                 } else if (this.type === 'fighter') {
-                    this.x += Math.cos(angle) * this.speed;
-                    this.y += Math.sin(angle) * this.speed;
+                    this.x += Math.cos(angle) * effectiveSpeed;
+                    this.y += Math.sin(angle) * effectiveSpeed;
                     this.shootTimer++;
-                    if (this.shootTimer > 85) {
+                    if (this.shootTimer > 80) {
                         this.shootTimer = 0;
                         enemyProjectiles.push(new Projectile(this.x, this.y, angle, 5.5, 12, '#f97316', true));
                     }
                 } else if (this.type === 'heavy') {
-                    this.x += Math.cos(angle) * this.speed;
-                    this.y += Math.sin(angle) * this.speed;
+                    this.x += Math.cos(angle) * effectiveSpeed;
+                    this.y += Math.sin(angle) * effectiveSpeed;
                     this.shootTimer++;
-                    if (this.shootTimer > 110) {
+                    if (this.shootTimer > 100) {
                         this.shootTimer = 0;
                         for (let i = -1; i <= 1; i++) {
                             enemyProjectiles.push(new Projectile(this.x, this.y, angle + i * 0.22, 5, 16, '#a855f7', true));
                         }
                     }
                 } else if (this.type === 'boss') {
-                    this.x += Math.cos(angle) * this.speed;
-                    this.y += Math.sin(angle) * this.speed;
+                    this.x += Math.cos(angle) * effectiveSpeed;
+                    this.y += Math.sin(angle) * effectiveSpeed;
                     this.shootTimer++;
 
-                    // Phase Calculations
                     const hpPercent = this.hp / this.maxHp;
-                    if (hpPercent < 0.33) {
-                        this.phase = 3;
-                    } else if (hpPercent < 0.66) {
-                        this.phase = 2;
-                    } else {
-                        this.phase = 1;
-                    }
+                    if (hpPercent < 0.33) this.phase = 3;
+                    else if (hpPercent < 0.66) this.phase = 2;
+                    else this.phase = 1;
 
                     document.getElementById('boss-phase').innerText = `PHASE ${this.phase}`;
 
-                    // Phase 1 Attack: Spiral Bullet Waves
-                    if (this.phase === 1 && this.shootTimer % 35 === 0) {
-                        for (let i = 0; i < 8; i++) {
-                            const bAngle = (Math.PI * 2 / 8) * i + (this.shootTimer * 0.05);
+                    if (this.phase === 1 && this.shootTimer % 30 === 0) {
+                        for (let i = 0; i < 10; i++) {
+                            const bAngle = (Math.PI * 2 / 10) * i + (this.shootTimer * 0.05);
                             enemyProjectiles.push(new Projectile(this.x, this.y, bAngle, 4.5, 15, '#ef4444', true));
                         }
                     }
 
-                    // Phase 2 Attack: Targeted Lasers + Ring Burst
-                    if (this.phase === 2 && this.shootTimer % 25 === 0) {
+                    if (this.phase === 2 && this.shootTimer % 20 === 0) {
                         enemyProjectiles.push(new Projectile(this.x, this.y, angle, 7, 20, '#ec4899', true));
-                        if (this.shootTimer % 100 === 0) {
-                            for (let i = 0; i < 12; i++) {
-                                enemyProjectiles.push(new Projectile(this.x, this.y, (Math.PI * 2 / 12) * i, 4, 15, '#38bdf8', true));
+                        if (this.shootTimer % 80 === 0) {
+                            for (let i = 0; i < 14; i++) {
+                                enemyProjectiles.push(new Projectile(this.x, this.y, (Math.PI * 2 / 14) * i, 4.5, 15, '#38bdf8', true));
                             }
                         }
                     }
 
-                    // Phase 3 Attack: Death Spiral Starburst
-                    if (this.phase === 3 && this.shootTimer % 15 === 0) {
-                        for (let i = 0; i < 6; i++) {
-                            const bAngle = (Math.PI * 2 / 6) * i + (this.shootTimer * 0.15);
+                    if (this.phase === 3 && this.shootTimer % 12 === 0) {
+                        for (let i = 0; i < 8; i++) {
+                            const bAngle = (Math.PI * 2 / 8) * i + (this.shootTimer * 0.15);
                             enemyProjectiles.push(new Projectile(this.x, this.y, bAngle, 5.5, 18, '#f59e0b', true));
                         }
                     }
@@ -1343,7 +1512,7 @@
                 // Player Collision
                 const dist = Math.hypot(this.x - player.x, this.y - player.y);
                 if (dist < this.radius + player.radius) {
-                    player.takeDamage(this.type === 'boss' ? 35 : 18);
+                    player.takeDamage(this.type === 'boss' ? 35 : (this.type === 'swarmer' ? 8 : 18));
                     if (this.type !== 'boss') this.takeDamage(999);
                 }
             }
@@ -1357,11 +1526,11 @@
                     sound.playExplosion();
                     score += this.scoreValue;
 
-                    for (let i = 0; i < 16; i++) {
+                    for (let i = 0; i < 12; i++) {
                         particles.push(new Particle(this.x, this.y, this.color, Math.random() * 4 + 1.5));
                     }
 
-                    const orbCount = this.type === 'boss' ? 18 : (this.type === 'heavy' ? 6 : 2);
+                    const orbCount = this.type === 'boss' ? 22 : (this.type === 'heavy' ? 6 : (this.type === 'swarmer' ? 1 : 2));
                     for (let i = 0; i < orbCount; i++) {
                         xpOrbs.push(new XPOrb(this.x + (Math.random() - 0.5) * 25, this.y + (Math.random() - 0.5) * 25));
                     }
@@ -1372,7 +1541,22 @@
                 ctx.save();
                 ctx.translate(this.x, this.y);
 
-                if (this.type === 'scout') {
+                if (this.slowTimer > 0) {
+                    ctx.strokeStyle = '#38bdf8';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.radius + 4, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+
+                if (this.type === 'swarmer') {
+                    ctx.fillStyle = '#38bdf8';
+                    ctx.shadowBlur = 8;
+                    ctx.shadowColor = '#0284c7';
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (this.type === 'scout') {
                     ctx.rotate(this.rotation);
                     ctx.fillStyle = '#ef4444';
                     ctx.shadowBlur = 10;
@@ -1416,28 +1600,26 @@
                 } else if (this.type === 'boss') {
                     ctx.rotate(this.rotation);
                     ctx.fillStyle = '#dc2626';
-                    ctx.shadowBlur = 20;
+                    ctx.shadowBlur = 25;
                     ctx.shadowColor = '#ef4444';
                     ctx.beginPath();
                     for (let i = 0; i < 8; i++) {
                         const a = (Math.PI * 2 / 8) * i;
-                        const px = Math.cos(a) * 50;
-                        const py = Math.sin(a) * 50;
+                        const px = Math.cos(a) * 55;
+                        const py = Math.sin(a) * 55;
                         if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
                     }
                     ctx.closePath();
                     ctx.fill();
 
-                    // Core Reactor Center
                     ctx.fillStyle = '#f59e0b';
                     ctx.beginPath();
-                    ctx.arc(0, 0, 18, 0, Math.PI * 2);
+                    ctx.arc(0, 0, 20, 0, Math.PI * 2);
                     ctx.fill();
                 }
 
                 ctx.restore();
 
-                // HP Bar for Heavy & Boss
                 if (this.type === 'heavy' || this.type === 'boss') {
                     const barW = this.radius * 2;
                     ctx.fillStyle = 'rgba(0,0,0,0.6)';
@@ -1461,8 +1643,8 @@
                 const dist = Math.hypot(player.x - this.x, player.y - this.y);
                 if (dist < player.magnetRadius) {
                     const angle = Math.atan2(player.y - this.y, player.x - this.x);
-                    this.x += Math.cos(angle) * 7.5;
-                    this.y += Math.sin(angle) * 7.5;
+                    this.x += Math.cos(angle) * 8.5;
+                    this.y += Math.sin(angle) * 8.5;
                 }
 
                 if (dist < player.radius + this.radius) {
@@ -1542,7 +1724,7 @@
             }
         }
 
-        // --- LEVEL UP & PERK SYSTEM ---
+        // --- LEVEL UP & PERKS ---
         function addXP(amount) {
             xp += amount;
             if (xp >= xpToNextLevel) {
@@ -1559,11 +1741,9 @@
             const perksContainer = document.getElementById('perks-container');
             perksContainer.innerHTML = '';
 
-            // Filter available non-maxed perks
             const availableKeys = Object.keys(PERKS).filter(key => player.perkLevels[key] < PERKS[key].maxLevel);
 
             if (availableKeys.length === 0) {
-                // All Perks Maxed out bonus
                 player.damageMult += 0.2;
                 player.hp = player.maxHp;
                 player.shield = player.maxShield;
@@ -1571,7 +1751,6 @@
                 return;
             }
 
-            // Shuffle and pick 3
             const shuffled = availableKeys.sort(() => 0.5 - Math.random()).slice(0, 3);
 
             shuffled.forEach(key => {
@@ -1595,17 +1774,15 @@
         function applyPerk(perkKey) {
             player.perkLevels[perkKey]++;
 
-            // Handle Overclock Engine
             if (perkKey === 'overclock') {
-                player.speed *= 1.15;
-                player.fireRate = Math.max(4, player.fireRate * 0.8);
+                player.speed *= 1.18;
+                player.fireRate = Math.max(3, player.fireRate * 0.78);
             }
 
-            // Handle Nanite Armor
             if (perkKey === 'armor') {
-                player.maxHp += 40;
+                player.maxHp += 50;
                 player.hp = player.maxHp;
-                player.maxShield += 40;
+                player.maxShield += 50;
                 player.shield = player.maxShield;
             }
 
@@ -1616,7 +1793,7 @@
         // --- WAVE & SPAWN LOGIC ---
         function startNextWave() {
             wave++;
-            enemiesToSpawn = 12 + wave * 5;
+            enemiesToSpawn = 35 + wave * 15;
             spawnInterval = 0;
 
             if (wave % 5 === 0) {
@@ -1645,11 +1822,13 @@
             level = 1;
             xp = 0;
             xpToNextLevel = 100;
-            enemiesToSpawn = 14;
+            enemiesToSpawn = 35;
             projectiles = [];
             enemyProjectiles = [];
             homingRockets = [];
             pulseWaves = [];
+            singularities = [];
+            clusterBombs = [];
             enemies = [];
             particles = [];
             xpOrbs = [];
@@ -1683,9 +1862,17 @@
         function gameLoop() {
             requestAnimationFrame(gameLoop);
 
-            // Render Space Starfield
-            ctx.fillStyle = '#030712';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            if (screenShake > 0) {
+                const rx = (Math.random() - 0.5) * screenShake;
+                const ry = (Math.random() - 0.5) * screenShake;
+                ctx.translate(rx, ry);
+                screenShake *= 0.9;
+                if (screenShake < 0.5) screenShake = 0;
+            }
+
+            ctx.fillStyle = '#020617';
+            ctx.fillRect(-20, -20, canvas.width + 40, canvas.height + 40);
 
             stars.forEach(star => {
                 star.y += star.speed;
@@ -1694,12 +1881,15 @@
                 ctx.fillRect(star.x, star.y, star.size, star.size);
             });
 
-            if (gameState !== 'PLAYING') return;
+            if (gameState !== 'PLAYING') {
+                ctx.restore();
+                return;
+            }
 
-            // Spawning Logic
+            // High-Density Enemy Spawning
             if (enemiesToSpawn > 0) {
                 spawnInterval++;
-                if (spawnInterval > 38) {
+                if (spawnInterval > 16) {
                     spawnInterval = 0;
                     enemiesToSpawn--;
 
@@ -1712,18 +1902,18 @@
                         y = Math.random() < 0.5 ? -20 : canvas.height + 20;
                     }
 
-                    const type = Math.random() < 0.55 ? 'scout' : (Math.random() < 0.85 ? 'fighter' : 'heavy');
+                    const rand = Math.random();
+                    const type = rand < 0.45 ? 'swarmer' : (rand < 0.70 ? 'scout' : (rand < 0.90 ? 'fighter' : 'heavy'));
                     enemies.push(new Enemy(x, y, type));
                 }
             } else if (enemies.length === 0) {
                 startNextWave();
             }
 
-            // Updates & Rendering
             player.update();
             player.draw();
 
-            // Player Projectiles
+            // Projectiles
             projectiles = projectiles.filter(p => {
                 p.update();
                 p.draw();
@@ -1731,14 +1921,14 @@
                 for (let enemy of enemies) {
                     if (Math.hypot(p.x - enemy.x, p.y - enemy.y) < p.radius + enemy.radius) {
                         enemy.takeDamage(p.damage);
-                        if (p.teslaLevel > 0) p.triggerTeslaChain(enemy);
+                        if (p.cryoLevel > 0) enemy.slowTimer = 90;
+                        if (p.teslaChains > 0) p.triggerTeslaChain(enemy);
                         return false;
                     }
                 }
                 return p.alive;
             });
 
-            // Enemy Projectiles
             enemyProjectiles = enemyProjectiles.filter(p => {
                 p.update();
                 p.draw();
@@ -1750,49 +1940,56 @@
                 return p.alive;
             });
 
-            // Homing Rockets
             homingRockets = homingRockets.filter(r => {
                 r.update();
                 r.draw();
                 return r.alive;
             });
 
-            // Pulse Shockwaves
             pulseWaves = pulseWaves.filter(pw => {
                 pw.update();
                 pw.draw();
                 return pw.alive;
             });
 
-            // Enemies
+            singularities = singularities.filter(s => {
+                s.update();
+                s.draw();
+                return s.alive;
+            });
+
+            clusterBombs = clusterBombs.filter(cb => {
+                cb.update();
+                cb.draw();
+                return cb.alive;
+            });
+
             enemies = enemies.filter(enemy => {
                 enemy.update();
                 enemy.draw();
                 return enemy.alive;
             });
 
-            // XP Orbs
             xpOrbs = xpOrbs.filter(orb => {
                 const alive = orb.update();
                 orb.draw();
                 return alive;
             });
 
-            // Particles
             particles = particles.filter(p => {
                 const alive = p.update();
                 p.draw();
                 return alive;
             });
 
-            // Floating Damage Texts
             floatingTexts = floatingTexts.filter(ft => {
                 const alive = ft.update();
                 ft.draw();
                 return alive;
             });
 
-            // Boss HUD Update
+            ctx.restore();
+
             if (activeBoss && activeBoss.alive) {
                 document.getElementById('boss-hp-bar').style.width = `${(activeBoss.hp / activeBoss.maxHp) * 100}%`;
             } else if (activeBoss && !activeBoss.alive) {
@@ -1800,7 +1997,6 @@
                 activeBoss = null;
             }
 
-            // HUD DOM Sync
             document.getElementById('hp-bar').style.width = `${(player.hp / player.maxHp) * 100}%`;
             document.getElementById('hp-text').innerText = `HP: ${Math.round(player.hp)} / ${player.maxHp}`;
 
