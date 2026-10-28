@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>untitled Document</title>
     <!-- Google Docs Favicon SVG -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHBhdGggZmlsbD0iIzQyODVGNCIgZD0iTTMwIDRIMTBjLTIuMiAwLTQgMS44LTQgNHYzMmMwIDIuMiAxLjggNCA0IDRoMjhjMi4yIDAgNC0xLjggNC00VjE2TDMwIDR6Ii8+PHBhdGggZmlsbD0iI0EwQzJGOSIgZD0iTTMwIDR2MTJoMTJMMzAgNHoiLz48cGF0aCBmaWxsPSIjRkZGIiBkPSJNMTYgMjJoMTZ2M3gxNnptMCA2aDE2djNIMTZ6bTAgNmgxMXYzSDE2eiIvPjwvc3ZnPg==">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+PHBhdGggZmlsbD0iIzQyODVGNCIgZD0iTTMwIDRIMTBjLTIuMiAwLTQgMS44LTQgNHYzMmMwIDIuMiAxLjggNCA0IDRoMjhjMi4yIDAgNC0xLjggNC00VjE2TDMwIDR6Ii8+PHBhdGggZmlsbD0iI0EwQzJGOSIgZD0iTTMwIDR2MTJoMTJMMzAgNHoiLz48cGF0aCBmaWxsPSIjRkZGIiBkPSJN12I2MjJoMTZ2M3gxNnptMCA2aDE2djNIMTZ6bTAgNmgxMXYzSDE2eiIvPjwvc3ZnPg==">
     
     <style>
         * {
@@ -48,7 +48,7 @@
             left: 20px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 7px;
             pointer-events: none;
             z-index: 10;
         }
@@ -74,6 +74,7 @@
         #hp-bar { background: linear-gradient(90deg, #f43f5e, #ef4444); }
         #shield-bar { background: linear-gradient(90deg, #0ea5e9, #38bdf8); }
         #xp-bar { background: linear-gradient(90deg, #eab308, #facc15); }
+        #boss-prog-bar { background: linear-gradient(90deg, #a855f7, #ec4899); }
 
         .stat-label {
             position: absolute;
@@ -92,7 +93,7 @@
             right: 20px;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             z-index: 10;
         }
 
@@ -116,6 +117,20 @@
             font-size: 11px;
             color: #94a3b8;
             font-weight: 700;
+        }
+
+        .status-badge {
+            background: #1e293b;
+            color: #38bdf8;
+            border: 1px solid #0284c7;
+            padding: 9px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 800;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .stealth-btn {
@@ -212,6 +227,18 @@
             line-height: 1.6;
         }
 
+        .timer-badge {
+            display: inline-block;
+            background: #0284c7;
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
         .btn-primary {
             background: linear-gradient(135deg, #0284c7, #2563eb);
             color: #fff;
@@ -235,7 +262,7 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 16px;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         .perk-card {
@@ -253,7 +280,13 @@
             overflow: hidden;
         }
 
-        .perk-card:hover {
+        .perk-card.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            border-color: #475569;
+        }
+
+        .perk-card:not(.disabled):hover {
             border-color: #38bdf8;
             transform: translateY(-4px);
             background: #0f172a;
@@ -440,6 +473,10 @@
                 <div id="xp-bar" class="stat-bar-fill" style="width: 0%;"></div>
                 <div class="stat-label" id="xp-text">LEVEL 1</div>
             </div>
+            <div class="stat-bar-container">
+                <div id="boss-prog-bar" class="stat-bar-fill" style="width: 20%;"></div>
+                <div class="stat-label" id="boss-prog-text">NEXT BOSS: WAVE 1 / 5</div>
+            </div>
         </div>
 
         <!-- BOSS HUD -->
@@ -454,6 +491,9 @@
         </div>
 
         <div class="top-right-hud">
+            <div class="status-badge" id="auto-shoot-badge">
+                🎯 AUTO-AIM [B]: OFF
+            </div>
             <div class="hud-score-box">
                 <div class="hud-score-val" id="score-display">0</div>
                 <div class="hud-sub" id="wave-display">WAVE 1</div>
@@ -468,11 +508,12 @@
             <div class="modal-card">
                 <div class="modal-title">DOC DEFENDER: HYPER-SWARM</div>
                 <div class="modal-subtitle">
-                    Survive massive waves of rogue drones with 10 stackable Level 5 super-abilities!<br>
-                    Summon <strong>Black Holes</strong>, launch <strong>Cluster Mortars</strong>, freeze mobs with <strong>Cryo Nova</strong>, and deploy <strong>Orbit Drones</strong>.<br><br>
-                    <strong>Flight Controls:</strong><br>
-                    • Move: <code>W A S D</code> / <code>Arrows</code> &nbsp;|&nbsp; Aim & Shoot: <code>Mouse + Left Click</code><br>
-                    • Dash / Dodge: <code>SPACEBAR</code> &nbsp;|&nbsp; <strong>Boss Key (Google Docs View):</strong> <code>ESC</code>
+                    Survive massive waves of rogue drones with 13 stackable Level 5 super-abilities!<br>
+                    Includes <strong>Auto-Aim Mode</strong>, <strong>1-Second Upgrade Safety Cooldown</strong>, and <strong>Orbital Beams</strong>.<br><br>
+                    <strong>Controls:</strong><br>
+                    • Move: <code>W A S D</code> / <code>Arrows</code> &nbsp;|&nbsp; Shoot: <code>SPACEBAR</code> or <code>Mouse Left Click</code><br>
+                    • Dash: <code>LEFT SHIFT</code> or <code>Right Click</code> &nbsp;|&nbsp; Toggle Auto-Aim: <code>B Key</code><br>
+                    • <strong>Boss Key (Google Docs View):</strong> <code>ESC</code>
                 </div>
                 <button class="btn-primary" id="start-btn">LAUNCH MISSION</button>
             </div>
@@ -482,7 +523,7 @@
         <div class="modal-overlay hidden" id="perk-modal">
             <div class="modal-card">
                 <div class="modal-title">SYSTEM OVERCLOCK</div>
-                <div class="modal-subtitle">Choose an upgrade module to increase ship combat power:</div>
+                <div class="timer-badge" id="perk-timer-badge">UNLOCKING IN 1.0s...</div>
                 <div class="perks-grid" id="perks-container"></div>
             </div>
         </div>
@@ -591,16 +632,16 @@
                 o.start(); o.stop(this.ctx.currentTime + 0.35);
             }
 
-            playFreeze() {
+            playBeam() {
                 if (this.muted || !this.ctx) return;
                 const o = this.ctx.createOscillator(), g = this.ctx.createGain();
-                o.type = 'triangle';
-                o.frequency.setValueAtTime(1200, this.ctx.currentTime);
-                o.frequency.linearRampToValueAtTime(600, this.ctx.currentTime + 0.15);
-                g.gain.setValueAtTime(0.15, this.ctx.currentTime);
-                g.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.15);
+                o.type = 'sawtooth';
+                o.frequency.setValueAtTime(150, this.ctx.currentTime);
+                o.frequency.linearRampToValueAtTime(800, this.ctx.currentTime + 0.4);
+                g.gain.setValueAtTime(0.25, this.ctx.currentTime);
+                g.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.4);
                 o.connect(g); g.connect(this.ctx.destination);
-                o.start(); o.stop(this.ctx.currentTime + 0.15);
+                o.start(); o.stop(this.ctx.currentTime + 0.4);
             }
 
             playRocket() {
@@ -700,11 +741,20 @@
 
         // --- INPUT ENGINE ---
         const keys = {};
-        const mouse = { x: canvas.width / 2, y: canvas.height / 2, down: false };
+        const mouse = { x: canvas.width / 2, y: canvas.height / 2, down: false, rightDown: false };
+        let autoShootMode = false;
+        let perkCanClick = false;
 
         window.addEventListener('keydown', e => {
             keys[e.code] = true;
             if (e.code === 'Escape') toggleStealthMode();
+            if (e.code === 'KeyB') {
+                autoShootMode = !autoShootMode;
+                const badge = document.getElementById('auto-shoot-badge');
+                badge.innerText = `🎯 AUTO-AIM [B]: ${autoShootMode ? 'ON' : 'OFF'}`;
+                badge.style.color = autoShootMode ? '#22c55e' : '#38bdf8';
+                badge.style.borderColor = autoShootMode ? '#22c55e' : '#0284c7';
+            }
         });
         window.addEventListener('keyup', e => keys[e.code] = false);
         window.addEventListener('mousemove', e => {
@@ -712,12 +762,15 @@
             mouse.y = e.clientY;
         });
         window.addEventListener('mousedown', e => {
-            if (e.button === 0) mouse.down = true;
             sound.init();
+            if (e.button === 0) mouse.down = true;
+            if (e.button === 2) mouse.rightDown = true;
         });
         window.addEventListener('mouseup', e => {
             if (e.button === 0) mouse.down = false;
+            if (e.button === 2) mouse.rightDown = false;
         });
+        window.addEventListener('contextmenu', e => e.preventDefault());
 
         // --- GAME STATE ---
         let gameState = 'START';
@@ -740,6 +793,8 @@
         let pulseWaves = [];
         let singularities = [];
         let clusterBombs = [];
+        let orbitalBeams = [];
+        let plasmaTrails = [];
         let enemies = [];
         let particles = [];
         let xpOrbs = [];
@@ -763,7 +818,7 @@
             screenShake = Math.max(screenShake, amount);
         }
 
-        // --- 10 STACKABLE PERKS (LEVEL 1 TO 5) ---
+        // --- 13 STACKABLE PERKS (LEVEL 1 TO 5) ---
         const PERKS = {
             spread: {
                 id: 'spread',
@@ -771,6 +826,27 @@
                 icon: '🔫',
                 maxLevel: 5,
                 getDesc: lvl => `Level ${lvl + 1}: Fires +${(lvl + 1) * 2} extra plasma beams in wide arcs.`
+            },
+            siphon: {
+                id: 'siphon',
+                name: 'Life Siphon',
+                icon: '⚡',
+                maxLevel: 5,
+                getDesc: lvl => `Level ${lvl + 1}: Siphons +${(lvl + 1) * 3} HP/Shield on every enemy kill.`
+            },
+            beam: {
+                id: 'beam',
+                name: 'Orbital Beam',
+                icon: '🔴',
+                maxLevel: 5,
+                getDesc: lvl => `Level ${lvl + 1}: Periodically fires a massive solar beam across the screen.`
+            },
+            trail: {
+                id: 'trail',
+                name: 'Plasma Trail',
+                icon: '🌌',
+                maxLevel: 5,
+                getDesc: lvl => `Level ${lvl + 1}: Leaves damaging plasma particles behind as you move.`
             },
             singularity: {
                 id: 'singularity',
@@ -858,6 +934,9 @@
 
                 this.perkLevels = {
                     spread: 0,
+                    siphon: 0,
+                    beam: 0,
+                    trail: 0,
                     singularity: 0,
                     cryo: 0,
                     cluster: 0,
@@ -874,7 +953,9 @@
                 this.rocketTimer = 0;
                 this.singularityTimer = 0;
                 this.clusterTimer = 0;
+                this.beamTimer = 0;
                 this.droneAngle = 0;
+                this.aimAngle = 0;
             }
 
             update() {
@@ -896,11 +977,18 @@
                 this.x = Math.max(this.radius, Math.min(canvas.width - this.radius, this.x));
                 this.y = Math.max(this.radius, Math.min(canvas.height - this.radius, this.y));
 
-                // Dash
+                // Plasma Trail Ability
+                if (this.perkLevels.trail > 0 && (dx !== 0 || dy !== 0)) {
+                    if (Math.random() < 0.6) {
+                        plasmaTrails.push(new PlasmaTrail(this.x, this.y, this.perkLevels.trail));
+                    }
+                }
+
+                // Dash Ability (Mapped to LEFT SHIFT or RIGHT CLICK)
                 if (this.dashCooldown > 0) this.dashCooldown--;
                 if (this.dashInvuln > 0) this.dashInvuln--;
 
-                if (keys['Space'] && this.dashCooldown === 0) {
+                if ((keys['ShiftLeft'] || keys['ShiftRight'] || mouse.rightDown) && this.dashCooldown === 0) {
                     this.dashCooldown = 70;
                     this.dashInvuln = 18;
                     this.x += dx * 95;
@@ -919,12 +1007,33 @@
                     this.shield = Math.min(this.maxShield, this.shield + 0.3);
                 }
 
-                // Weapon Firing
-                if (this.fireCooldown > 0) this.fireCooldown--;
-                if (mouse.down && this.fireCooldown === 0) {
-                    this.shoot();
-                    this.fireCooldown = this.fireRate;
+                // Aiming & Auto-Shooting Engine
+                if (autoShootMode) {
+                    let closestEnemy = null, minDist = 99999;
+                    for (let enemy of enemies) {
+                        const d = Math.hypot(enemy.x - this.x, enemy.y - this.y);
+                        if (d < minDist) { minDist = d; closestEnemy = enemy; }
+                    }
+
+                    if (closestEnemy) {
+                        this.aimAngle = Math.atan2(closestEnemy.y - this.y, closestEnemy.x - this.x);
+                        if (this.fireCooldown === 0) {
+                            this.shoot(this.aimAngle);
+                            this.fireCooldown = this.fireRate;
+                        }
+                    } else {
+                        this.aimAngle = Math.atan2(mouse.y - this.y, mouse.x - this.x);
+                    }
+                } else {
+                    this.aimAngle = Math.atan2(mouse.y - this.y, mouse.x - this.x);
+                    if (this.fireCooldown > 0) this.fireCooldown--;
+                    if ((mouse.down || keys['Space']) && this.fireCooldown === 0) {
+                        this.shoot(this.aimAngle);
+                        this.fireCooldown = this.fireRate;
+                    }
                 }
+
+                if (this.fireCooldown > 0 && autoShootMode) this.fireCooldown--;
 
                 // Perk: Pulse Nova
                 if (this.perkLevels.pulse > 0) {
@@ -953,6 +1062,17 @@
                     }
                 }
 
+                // Perk: Orbital Beam
+                if (this.perkLevels.beam > 0) {
+                    this.beamTimer++;
+                    if (this.beamTimer >= 220 - this.perkLevels.beam * 20) {
+                        this.beamTimer = 0;
+                        orbitalBeams.push(new OrbitalBeam(mouse.x, this.perkLevels.beam));
+                        sound.playBeam();
+                        triggerScreenShake(7);
+                    }
+                }
+
                 // Perk: Singularity Black Hole
                 if (this.perkLevels.singularity > 0) {
                     this.singularityTimer++;
@@ -970,23 +1090,19 @@
                     this.clusterTimer++;
                     if (this.clusterTimer >= 90) {
                         this.clusterTimer = 0;
-                        const targetAngle = Math.atan2(mouse.y - this.y, mouse.x - this.x);
-                        clusterBombs.push(new ClusterBomb(this.x, this.y, targetAngle, this.perkLevels.cluster));
+                        clusterBombs.push(new ClusterBomb(this.x, this.y, this.aimAngle, this.perkLevels.cluster));
                     }
                 }
 
                 this.droneAngle += 0.03;
             }
 
-            shoot() {
+            shoot(angle) {
                 sound.playLaser();
-                const angle = Math.atan2(mouse.y - this.y, mouse.x - this.x);
                 const baseDamage = 30 * this.damageMult;
 
-                // Center Laser
                 projectiles.push(new Projectile(this.x, this.y, angle, 14, baseDamage, '#38bdf8', false, this.perkLevels.tesla * 2, this.perkLevels.cryo));
 
-                // Spread Cannons
                 if (this.perkLevels.spread > 0) {
                     const count = this.perkLevels.spread;
                     for (let i = 1; i <= count; i++) {
@@ -1063,8 +1179,7 @@
                 // Ship Rendering
                 ctx.save();
                 ctx.translate(this.x, this.y);
-                const angle = Math.atan2(mouse.y - this.y, mouse.x - this.x);
-                ctx.rotate(angle);
+                ctx.rotate(this.aimAngle);
 
                 ctx.fillStyle = '#0f172a';
                 ctx.strokeStyle = this.dashInvuln > 0 ? '#67e8f9' : '#38bdf8';
@@ -1104,6 +1219,72 @@
             }
         }
 
+        // --- ORBITAL BEAM CLASS ---
+        class OrbitalBeam {
+            constructor(x, level) {
+                this.x = x;
+                this.width = 40 + level * 20;
+                this.damage = 12 + level * 6;
+                this.life = 60;
+                this.alive = true;
+            }
+
+            update() {
+                this.life--;
+                if (this.life <= 0) { this.alive = false; return; }
+
+                for (let enemy of enemies) {
+                    if (Math.abs(enemy.x - this.x) < this.width / 2 + enemy.radius) {
+                        enemy.takeDamage(this.damage);
+                    }
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.fillStyle = 'rgba(239, 68, 68, 0.4)';
+                ctx.strokeStyle = '#f87171';
+                ctx.lineWidth = 3;
+                ctx.shadowBlur = 25;
+                ctx.shadowColor = '#ef4444';
+                ctx.fillRect(this.x - this.width / 2, 0, this.width, canvas.height);
+                ctx.strokeRect(this.x - this.width / 2, 0, this.width, canvas.height);
+                ctx.restore();
+            }
+        }
+
+        // --- PLASMA TRAIL CLASS ---
+        class PlasmaTrail {
+            constructor(x, y, level) {
+                this.x = x;
+                this.y = y;
+                this.radius = 12 + level * 4;
+                this.damage = 2 + level * 1.5;
+                this.life = 45;
+                this.alive = true;
+            }
+
+            update() {
+                this.life--;
+                if (this.life <= 0) { this.alive = false; return; }
+
+                for (let enemy of enemies) {
+                    if (Math.hypot(enemy.x - this.x, enemy.y - this.y) < this.radius + enemy.radius) {
+                        enemy.takeDamage(this.damage);
+                    }
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.fillStyle = `rgba(168, 85, 247, ${this.life / 45})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
         // --- SINGULARITY (BLACK HOLE) CLASS ---
         class Singularity {
             constructor(x, y, level) {
@@ -1121,7 +1302,6 @@
                 if (this.duration <= 0) { this.alive = false; return; }
                 this.angle += 0.08;
 
-                // Gravitational Pull
                 for (let enemy of enemies) {
                     const dist = Math.hypot(enemy.x - this.x, enemy.y - this.y);
                     if (dist < this.radius) {
@@ -1137,7 +1317,6 @@
                 ctx.save();
                 ctx.translate(this.x, this.y);
 
-                // Swirling Event Horizon
                 ctx.fillStyle = '#0f172a';
                 ctx.strokeStyle = '#c084fc';
                 ctx.lineWidth = 3;
@@ -1395,7 +1574,7 @@
             constructor(x, y, type) {
                 this.x = x;
                 this.y = y;
-                this.type = type; // 'swarmer', 'scout', 'fighter', 'heavy', 'boss'
+                this.type = type;
                 this.alive = true;
                 this.rotation = 0;
                 this.phase = 1;
@@ -1525,6 +1704,13 @@
                     this.alive = false;
                     sound.playExplosion();
                     score += this.scoreValue;
+
+                    // Life Siphon Perk
+                    if (player && player.perkLevels.siphon > 0) {
+                        const healAmt = player.perkLevels.siphon * 3;
+                        player.hp = Math.min(player.maxHp, player.hp + healAmt);
+                        player.shield = Math.min(player.maxShield, player.shield + healAmt);
+                    }
 
                     for (let i = 0; i < 12; i++) {
                         particles.push(new Particle(this.x, this.y, this.color, Math.random() * 4 + 1.5));
@@ -1724,7 +1910,7 @@
             }
         }
 
-        // --- LEVEL UP & PERKS ---
+        // --- LEVEL UP & PERKS (WITH 1-SECOND TIMER) ---
         function addXP(amount) {
             xp += amount;
             if (xp >= xpToNextLevel) {
@@ -1737,8 +1923,11 @@
 
         function triggerPerkSelection() {
             gameState = 'PERK';
+            perkCanClick = false;
+
             const perkModal = document.getElementById('perk-modal');
             const perksContainer = document.getElementById('perks-container');
+            const timerBadge = document.getElementById('perk-timer-badge');
             perksContainer.innerHTML = '';
 
             const availableKeys = Object.keys(PERKS).filter(key => player.perkLevels[key] < PERKS[key].maxLevel);
@@ -1757,18 +1946,36 @@
                 const perk = PERKS[key];
                 const currentLvl = player.perkLevels[key];
                 const card = document.createElement('div');
-                card.className = 'perk-card';
+                card.className = 'perk-card disabled';
                 card.innerHTML = `
                     <div class="perk-badge">LVL ${currentLvl + 1}</div>
                     <div class="perk-icon">${perk.icon}</div>
                     <div class="perk-name">${perk.name}</div>
                     <div class="perk-desc">${perk.getDesc(currentLvl)}</div>
                 `;
-                card.addEventListener('click', () => applyPerk(key));
+                card.addEventListener('click', () => {
+                    if (perkCanClick) applyPerk(key);
+                });
                 perksContainer.appendChild(card);
             });
 
             perkModal.classList.remove('hidden');
+
+            // 1-Second Safety Countdown
+            let timeLeft = 1.0;
+            timerBadge.innerText = `UNLOCKING IN 1.0s...`;
+            
+            const countdownInterval = setInterval(() => {
+                timeLeft -= 0.1;
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    perkCanClick = true;
+                    timerBadge.innerText = `SELECT AN UPGRADE`;
+                    document.querySelectorAll('.perk-card').forEach(c => c.classList.remove('disabled'));
+                } else {
+                    timerBadge.innerText = `UNLOCKING IN ${timeLeft.toFixed(1)}s...`;
+                }
+            }, 100);
         }
 
         function applyPerk(perkKey) {
@@ -1829,6 +2036,8 @@
             pulseWaves = [];
             singularities = [];
             clusterBombs = [];
+            orbitalBeams = [];
+            plasmaTrails = [];
             enemies = [];
             particles = [];
             xpOrbs = [];
@@ -1912,6 +2121,20 @@
 
             player.update();
             player.draw();
+
+            // Orbital Beams
+            orbitalBeams = orbitalBeams.filter(b => {
+                b.update();
+                b.draw();
+                return b.alive;
+            });
+
+            // Plasma Trails
+            plasmaTrails = plasmaTrails.filter(t => {
+                t.update();
+                t.draw();
+                return t.alive;
+            });
 
             // Projectiles
             projectiles = projectiles.filter(p => {
@@ -1997,6 +2220,7 @@
                 activeBoss = null;
             }
 
+            // HUD Updates
             document.getElementById('hp-bar').style.width = `${(player.hp / player.maxHp) * 100}%`;
             document.getElementById('hp-text').innerText = `HP: ${Math.round(player.hp)} / ${player.maxHp}`;
 
@@ -2005,6 +2229,11 @@
 
             document.getElementById('xp-bar').style.width = `${(xp / xpToNextLevel) * 100}%`;
             document.getElementById('xp-text').innerText = `LEVEL ${level}`;
+
+            // Boss Progress Bar Calculations
+            const currentWaveInCycle = (wave - 1) % 5 + 1;
+            document.getElementById('boss-prog-bar').style.width = `${(currentWaveInCycle / 5) * 100}%`;
+            document.getElementById('boss-prog-text').innerText = `NEXT BOSS: WAVE ${currentWaveInCycle} / 5`;
 
             document.getElementById('score-display').innerText = score;
             document.getElementById('wave-display').innerText = `WAVE ${wave}`;
